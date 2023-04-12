@@ -1,0 +1,3 @@
+FLASK_APP=anakonda
+FLASK_ENV=denelopment
+FLASK_DEBUG=1
