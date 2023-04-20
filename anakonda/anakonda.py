@@ -19,6 +19,6 @@ def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
     db.init_app(app)
-    mg.init_app(app)
+    mg.init_app(app, db)
     app.register_blueprint(apiv1_bp)
     return app
