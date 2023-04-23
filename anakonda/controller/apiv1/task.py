@@ -1,10 +1,13 @@
 from anakonda.model import Task
 from anakonda.util import jsonify
-
+from anakonda.anakonda import db
+from anakonda.schema.apiv1 import TaskSchema
 
 class TaskController:
     def get_tasks():
-        return jsonify(status=501, code=101)
+        tasks_schema = TaskSchema(many=True)
+        tasks = Task.query.all()
+        return jsonify(state=tasks_schema.dump(tasks))
 
     def get_task(task_id):
         return jsonify(status=501, code=101)
