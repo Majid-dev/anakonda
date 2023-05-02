@@ -23,3 +23,5 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = DEBUG
 
     TIMEZONE = environ.get("ANAKONDA_API_TIMEZONE", "Europ/London")
+
+    AVAILABLE_RUNTIMES = ["docker"]
