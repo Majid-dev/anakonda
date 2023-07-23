@@ -19,21 +19,21 @@ class TaskController:
             tasks = Task.query.all()
         except:
             return jsonify(status=500, code=106)
-        return jsonify(state=tasks_schema.dump(tasks))
+        return jsonify(tasks_schema.dump(tasks))
 
     @json_required
     def get_task(task_id):
         try:
-            tasks_schema = TaskSchema()
+            task_schema = TaskSchema()
         except:
             return jsonify(status=500, code=103)
         try:
-            task = Task.query.get(task_id)
+            task = db.session.get(Task, task_id)
         except:
             return jsonify(status=500, code=106)
         if task is None:
             return jsonify(status=404, code=107)
-        return jsonify(tasks_schema.dump(task))
+        return jsonify(task_schema.dump(task))
 
     @json_required
     def create_task():
@@ -54,17 +54,14 @@ class TaskController:
             return jsonify(status=400, code=104)
         if request_data["runtime"] not in Config.AVAILABLE_RUNTIMES:
             return jsonify(status=400, code=108)
-
         task = Task(
             name=request_data["name"],
             namespace=request_data["namespace"],
             runtime=request_data["runtime"],
             image=request_data["image"],
             script=request_data["script"],
-            result="ok",
             status="new",
         )
-
         db.session.add(task)
         try:
             db.session.commit()
@@ -96,7 +93,7 @@ class TaskController:
             if request_data["runtime"] not in Config.AVAILABLE_RUNTIMES:
                 return jsonify(status=400, code=108)
         try:
-            task = Task.query.get(task_id)
+            task = db.session.get(Task, task_id)
         except:
             return jsonify(status=500, code=106)
         if task is None:
@@ -115,7 +112,6 @@ class TaskController:
             request_data["script"] if "script" in request_data else task.script
         )
         task.last_update_at = now()
-
         try:
             db.session.commit()
         except:
@@ -126,7 +122,7 @@ class TaskController:
     @json_required
     def delete_task(task_id):
         try:
-            task = Task.query.get(task_id)
+            task = db.session.get(Task, task_id)
         except:
             return jsonify(status=500, code=106)
         if task is None:

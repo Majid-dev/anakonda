@@ -1,6 +1,6 @@
 from flask_restful import Resource
 
-from anakonda.controller.apiv1.task import TaskController
+from anakonda.controller.apiv1 import TaskController
 
 
 class TaskResource(Resource):
@@ -31,6 +31,6 @@ class TaskResource(Resource):
     def delete(self, task_id):
         """
         DEL /api/v1/tasks --> Not allowed.
-        DEL /api/v1/tasks/<task_id> --> Update task.
+        DEL /api/v1/tasks/<task_id> --> Delete task.
         """
         return TaskController.delete_task(task_id)
