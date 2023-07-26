@@ -49,12 +49,16 @@ To run the project, ensure you have the following prerequisites installed:
 ## Usage
 ### API Endpoints
 The API exposes the following endpoints:
-- GET /api/v1/tasks/<task_id> : return a single task information
-- GET /api/v1/tasks : return all tasks information
+- GET /api/v1/tasks/<task_id> : Return a single task information
+- GET /api/v1/tasks : Return all tasks information
 - POST /api/v1/task : Submit a task for execution. The request should include the task script and runtime information. The API will process the task and return the results and status.
 - PATCH /api/v1/tasks/<task_id> : Update a task.
-- DELETE /api/v1/tasks/<task_id> : delete a task.
+- DELETE /api/v1/tasks/<task_id> : Delete a task.
 
+> Example:
+```bash
+curl -i -X POST -H 'Content-Type: application/json' localhost:5000/api/v1/tasks -d '{"name":"test", "namespace":"default", "runtime":"docker", "image":"python", "script":"cat /etc/passwd"}'
+```
 
 ### Supported Runtimes
 The API supports two runtimes:
